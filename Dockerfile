@@ -1,5 +1,15 @@
 # Use a lightweight Python image with a supported Debian version
-FROM python:3.12-slim-bookworm
+# Use a specific patched tag instead of generic base
+FROM debian:12-slim
+
+# Update packages to latest patched versions
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    # your dependencies \
+    && rm -rf /var/lib/apt/lists/*
+
+
+
+#FROM python:3.12-slim-bookworm
 
 # Create a non-root user for security (Tight Security Principle)
 RUN useradd -m appuser
