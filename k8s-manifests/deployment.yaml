@@ -5,7 +5,7 @@ metadata:
   labels:
     app: hello-ashwani
 spec:
-  replicas: 4 # High availability: runs two copies of your app
+  replicas: 2 # High availability: runs two copies of your app
   selector:
     matchLabels:
       app: hello-ashwani
