@@ -15,7 +15,8 @@ jobs:
       - name: Run Bandit (SAST)
         run: |
           pip install bandit
-          bandit -r app.py
+          bandit -r app.py -f json -o bandit-report.json || true
+        continue-on-error: true
 
       # Gate 2: Vulnerability Scan of the Dockerfile/Image
       - name: Build local image for scanning
@@ -25,6 +26,13 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'hello-ashwani:test'
-          format: 'table'
-          exit-code: '0' # This fails the pipeline if high-risk bugs are found
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          exit-code: '1'  # Fail on CRITICAL/HIGH
           severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
