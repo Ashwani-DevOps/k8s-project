@@ -1,0 +1,30 @@
+name: Security Scan and Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Gate 1: Python Code Scan
+      - name: Run Bandit (SAST)
+        run: |
+          pip install bandit
+          bandit -r app.py
+
+      # Gate 2: Vulnerability Scan of the Dockerfile/Image
+      - name: Build local image for scanning
+        run: docker build -t hello-ashwani:test .
+
+      - name: Trivy Scan (Container Security)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'hello-ashwani:test'
+          format: 'table'
+          exit-code: '1' # This fails the pipeline if high-risk bugs are found
+          severity: 'CRITICAL,HIGH'

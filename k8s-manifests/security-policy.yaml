@@ -1,0 +1,7 @@
+apiVersion: security.istio.io/v1beta1
+metadata:
+  name: default
+  namespace: default
+spec:
+  mtls:
+  mode: STRICT # This REJECTS any connection that isn't encrypted with mTLS
