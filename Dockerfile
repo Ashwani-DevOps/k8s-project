@@ -1,5 +1,5 @@
-# Use a lightweight Python image
-FROM python:3.11-slim-buster
+# Use a lightweight Python image with a supported Debian version
+FROM python:3.12-slim-bookworm
 
 # Create a non-root user for security (Tight Security Principle)
 RUN useradd -m appuser
