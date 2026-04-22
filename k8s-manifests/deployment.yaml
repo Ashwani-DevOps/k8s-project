@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hello-ashwani-python
-        image: <your-registry-name>.azurecr.io/hello-ashwani:latest
+        image: nginxdemos/hello:latest
         ports:
         - containerPort: 8080
 ---
