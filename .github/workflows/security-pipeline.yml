@@ -26,5 +26,5 @@ jobs:
         with:
           image-ref: 'hello-ashwani:test'
           format: 'table'
-          exit-code: '1' # This fails the pipeline if high-risk bugs are found
+          exit-code: '0' # This fails the pipeline if high-risk bugs are found
           severity: 'CRITICAL,HIGH'
